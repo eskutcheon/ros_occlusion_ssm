@@ -12,7 +12,7 @@ with open(f'{Path(__file__).parent}/requirements.txt', 'r') as f:
 
 
 d = generate_distutils_setup(
-   packages=['ros_sam'],
+   packages=['ros_occlusion_ssm'],
    package_dir={'': 'src'}
 )
 

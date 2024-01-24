@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <launch>
 
-  <node type="sam_node.py" name="sam_node" pkg="ros_sam" output="screen">
+  <node type="ssm_node.py" name="ssm_node" pkg="ros_occlusion_ssm" output="screen">
     <param name="model" value="vit_h"/>
   </node>
 

@@ -20,23 +20,23 @@ Installation is easy:
 Run the SAM ROS node using `rosrun`:
 
 ```bash
-rosrun ros_sam sam_node.py
+rosrun ros_occlusion_ssm ssm_node.py
 ```
 
 The node has two parameters:
  - `~model` SAM model to use, defaults to `vit_h`. Check SAM documentation for options.
  - `~cuda` whether to use CUDA and which device, defaults to `cuda`. Use `cpu` if you have no CUDA.If you want to use a specific GPU, set someting like `cuda:1`.
 
-The node currently offers a single service `ros_sam/segment` which can be called to segment an image. Check `rossrv show ros_sam/Segmentation` for request and response specifications.
+The node currently offers a single service `ros_occlusion_ssm/segment` which can be called to segment an image. Check `rossrv show ros_occlusion_ssm/Segmentation` for request and response specifications.
 
-You can test SAM by starting the node and then running `rosrun ros_sam sam_test.py`. This should yield the following result:
+You can test SAM by starting the node and then running `rosrun ros_occlusion_ssm ssm_test.py`. This should yield the following result:
 
 <img src="figures/segmentation-example.png" width=50% height=50%>
 
 
 ### ROS Services
 
-`ros_sam` offers a single service `segment` of the type `ros_sam/Segmentation.srv`. The service definition is
+`ros_occlusion_ssm` offers a single service `segment` of the type `ros_occlusion_ssm/Segmentation.srv`. The service definition is
 ```
 sensor_msgs/Image        image            # Image to segment
 geometry_msgs/Point[]    query_points     # Points to start segmentation from
@@ -67,7 +67,7 @@ To use the GUI install the following in your ROS workspace:
 
 Run the launch file:
 
-`roslaunch ros_sam gui_test.launch`
+`roslaunch ros_occlusion_ssm gui_test.launch`
 
 Check the terminal and wait until the SAM model has finished loading.
 
@@ -82,8 +82,8 @@ Alternatively, if you don't feel like assembling the service calls yourself, one
 
 Initialize the client with the service name of the SAM segmentation service
 ```python
-from ros_sam import SAMClient
-sam_client = SAMClient('ros_sam')
+from ros_occlusion_ssm import SAMClient
+ssm_client = SAMClient('ros_occlusion_ssm')
 ```
 
 Call the segment method with the input image, input prompt points and corresponding labels. This returns 3 segmentation masks for the object and their corresponding confidence scores
@@ -91,12 +91,12 @@ Call the segment method with the input image, input prompt points and correspond
 img = cv2.imread('path/to/image.png')
 points = np.array([[100, 100], [200, 200], [300, 300]])
 labels = [1, 1, 0]
-masks, scores = sam_client.segment(img, points, labels)
+masks, scores = ssm_client.segment(img, points, labels)
 ```
 
 Additional utilities for visualizing segmentation masks and input prompts
 ```python
-from ros_sam import show_mask, show_points
+from ros_occlusion_ssm import show_mask, show_points
 show_mask(masks[0], plt.gca())
 show_points(points, np.asarray(labels), plt.gca())
 ```

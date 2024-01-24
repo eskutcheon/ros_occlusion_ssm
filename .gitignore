@@ -5,3 +5,6 @@ __pycache__/
 # Ignore downloaded models
 models/*
 !models/.gitkeep
+notes.txt
+
+.vscode
