@@ -3,6 +3,7 @@
 
   <node type="ssm_node.py" name="ssm_node" pkg="ros_occlusion_ssm" output="screen">
     <param name="model" value="vit_h"/>
+    <param name="cuda" value="cuda">
   </node>
 
   <node type="rqt_image_view_seg" name="rqt_image_view_seg" pkg="rqt_image_view_seg" output="screen"/>

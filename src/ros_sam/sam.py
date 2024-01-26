@@ -10,6 +10,8 @@ class SAM():
     def __init__(self, model_type, cuda_device=None) -> None:
         # will need to keep the following path, most likely; using os requires I also import glob
         model_dir = Path(Path(__file__).parent.parent.parent/'models').absolute()
+        # may wanna replace this with something more explicit later
+        # seems to just search for a file of the form sam_{model}_*.pth and ensure it's the only such option to use as the ckpt
         checkpoints = list(model_dir.glob(f'sam_{model_type}_*.pth'))
         if len(checkpoints) == 0:
             raise RuntimeError(f'No matching checkpoints for SAM model "{model_type}" was found in "{model_dir}"')
@@ -28,6 +30,7 @@ class SAM():
         torch.cuda.empty_cache()
 
     def segment(self, img, points, point_labels, boxes=None, multimask=True):
+        # TODO: add a Compose of tensor functions for receiving an ndarray from the ssm node
         self._predictor.set_image(img)
         return self._predictor.predict(
             point_coords=points,
